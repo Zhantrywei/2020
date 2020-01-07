@@ -9,8 +9,7 @@
 
 看了下 IconFont 大神 Purplebamboo 的两篇博客，对 iconfont 有了一些初步的认识，虽然是比较老的文章了，现在这个博客也没有继续更新了，但是这两篇文章对于我这方面的学习还是有很大的参考价值的。
 
-> [iconfont 记录](http://purplebamboo.github.io/2014/01/09/iconfont/) 
-> [iconfont 字体生成原理及使用技巧](http://purplebamboo.github.io/2016/08/16/iconfont_code_and_use/)
+> [iconfont 记录](http://purplebamboo.github.io/2014/01/09/iconfont/) > [iconfont 字体生成原理及使用技巧](http://purplebamboo.github.io/2016/08/16/iconfont_code_and_use/)
 
 1. 字体兼容性
 
@@ -75,7 +74,8 @@
     2. iconfont 只是通过不同的 Unicode 编码里面放置了不同的图标图像矢量图当成字体一样去使用。制作工具有[font-carrier](http://purplebamboo.github.io/font-carrier/)。不过这种通过字体定义 icon 的方式会存在无法支持多色和基线标准以及兼容性问题，后续被 svg 替代。
     3. 最主要是用精简工具来精简字体：[font-collector](https://github.com/JailBreakC/font-collector)
 
-## 精简字体font-collector使用心得
+## 精简字体 font-collector 使用心得
+
 1. 安装：
     ```bash
         npm install -g font-collector # npm最新的是0.0.1,github上边是0.1.0,不过0.1.0有bug,我没有调通,不懂commander,后续要学习下了,0.0.1不能通过配置文件,也无法进行文件忽略,等有时间再看看代码是怎么写的,改下源码
@@ -85,28 +85,66 @@
         font-collector -f 源字体文件 -s 代码目录 -o 导出精简的字体文件
         # eg: font-collector -f .\lib\PingFangBold.ttf -s .\ -o .\fonts\MiniPingFangBold
     ```
-3. 存在问题：只能转换中文，我改了源代码的Unicode编码范围的正则匹配，可以转更多的，但是存在基线严重偏下的现象
-![太难了](https://img.gmz88.com/uploadimg/image/20190830/20190830154145_65413.gif)
+3. 存在问题：只能转换中文，我改了源代码的 Unicode 编码范围的正则匹配，可以转更多的，但是存在基线严重偏下的现象
+   ![严重偏移基线](./imgs/fontcollector_after.png)
+   ![太难了](https://img.gmz88.com/uploadimg/image/20190830/20190830154145_65413.gif)
 
-## 又找了个fontmin
+## 又找了个 fontmin
+
 1. 安装：
     ```bash
-        npm i -g fontmin
-        # 1. 报错找不到python
-        # > ttf2woff2@3.0.0 install # D:\softtool\nodejs\node_modules\fontmin\node_modules\ttf2woff2
-        # > ((node-gyp configure && node-gyp build) > builderror.log) || (exit 0)
-        # gyp ERR! configure error
-        # gyp ERR! stack Error: Can't find Python executable # "C:\Users\Ztry\.windows-build-tools\python27\python.exe", you can set the # PYTHON env variable...
-        # 跑去下了个python2.7，然后把全局path指向目录，npm config set python "C:\Python27\python.exe"
-        # npm uninstall -g node-gyp fontmin ， 又重新安装 npm i -g node-gyp fontmin
-        # mmp, 又报错
-        # 2. 报错build error
-        #> ((node-gyp configure && node-gyp build) > builderror.log) || (exit 0)
-        # Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation
-        # Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation
-        # gyp ERR! build error
-        # gyp ERR! stack Error: `C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe` failed with exit code: 1
-        # 百度下，安装了 npm install sails --msvs_version=2013 -g
-        # 重新卸载，安装npm uninstall -g node-gyp fontmin ， 又重新安装 npm i -g node-gyp fontmin
-        # 终于过了，太难了
+         npm i -g fontmin # 1. 报错找不到python # > ttf2woff2@3.0.0 install
+         # D:\softtool\nodejs\node_modules\fontmin\node_modules\ttf2woff2
+         # > ((node-gyp configure && node-gyp build) > builderror.log) || (exit 0)
+         # gyp ERR! configure error
+         # gyp ERR! stack Error: Can't find Python executable
+         # "C:\Users\Ztry\.windows-build-tools\python27\python.exe", you can set the
+         # PYTHON env variable...
+         # 跑去下了个python2.7，然后把全局path指向目录，npm config set python "C:\Python27\python.exe" # npm uninstall -g node-gyp fontmin ， 又重新安装 npm i -g node-gyp fontmin
+         # mmp, 又报错
+         # 2. 报错build error
+         #> ((node-gyp configure && node-gyp build) > builderror.log) || (exit 0)
+         # Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation
+         # Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation # gyp ERR! build error
+         # gyp ERR! stack Error: `C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe` failed with exit code: 1
+         # 百度下，安装了 npm install sails --msvs_version=2013 -g
+         # 重新卸载，安装npm uninstall -g node-gyp fontmin ， 又重新安装 npm i -g node-gyp fontmin
+         # 终于过了，太难了
     ```
+    ![效果还不错](./imgs/minifont_after.png)
+2. 用法：
+
+    1. 命令行：需要全局安装 fontmin
+
+        ```bash
+            fontmin -h
+            # Minify font seamlessly, font subsetter, webfont (eot, # woff, svg) converter.
+            # Usage
+            #     $ fontmin <file> [<output>]
+            #     $ fontmin <directory> [<output>]
+            #     $ fontmin <file> > <output>
+            #     $ cat <file> | fontmin > <output>
+            # Example
+            #     $ fontmin fonts/* build
+            #     $ fontmin fonts build
+            #     $ cat foo.ttf | fontmin > foo-optimized.ttf
+            # Options
+            #     -t, --text                          require glyphs by text
+            #     -b, --basic-text                    require glyphs # with base chars
+            #     --font-family                       font-family for # @font-face CSS
+            #     --css-glyph                         generate class # for each glyf. default = false
+            #     -T, --show-time                     show time fontmin # cost
+        ```
+
+    2. 在 js 中配置，并 node，需要在项目目录下安装 fontmin
+
+        ```js
+            // fontmin.js
+            const Fontmin = require('fontmin');
+            var fontmin = new Fontmin()
+            .src(srcPath)   // srcPath: 源字体路径
+            .use(plugins)   // plugins: glyph、ttf2eot、ttf2woff、ttf2svg、css、svg2ttf、svgs2ttf、otf2ttf
+            .dest(folder)   // fold: 输出目录
+            .run(function(err,files,stream))    // 运行：如果有异常打印err
+            // 详见：https://github.com/ecomfe/fontmin
+        ```
