@@ -14,7 +14,7 @@
     "sails": "^1.2.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node fontmin.js"
   },
   "author": "",
   "license": "ISC"

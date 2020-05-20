@@ -110,6 +110,23 @@
          # 百度下，安装了 npm install sails --msvs_version=2013 -g
          # 重新卸载，安装npm uninstall -g node-gyp fontmin ， 又重新安装 npm i -g node-gyp fontmin
          # 终于过了，太难了
+         # 20200520：又报错了
+         #  > ttf2woff2@3.0.0 install F:\Ztry\2020\fe-project\20200106\font-study\node_modules\ttf2woff2
+         #  > ((node-gyp configure && node-gyp build) > builderror.log) || (exit 0) 
+         #  Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation
+         #  Warning: unrecognized setting VCCLCompilerTool/MultiProcessorCompilation
+         #  gyp ERR! build error
+         #  gyp ERR! stack Error: `C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe` failed with exit code: 1
+         #  gyp ERR! stack     at ChildProcess.onExit (D:\softtool\nvm\v11.10.1\node_modules\npm\node_modules\node-gyp\lib\build.js:262:23)
+         #  gyp ERR! stack     at ChildProcess.emit (events.js:197:13)
+         #  gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:254:12)
+         #  gyp ERR! System Windows_NT 10.0.18362
+         #  gyp ERR! command "D:\\softtool\\nodejs\\node.exe" "D:\\softtool\\nvm\\v11.10.1\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js" "build"
+         #  gyp ERR! cwd F:\Ztry\2020\fe-project\20200106\font-study\node_modules\ttf2woff2
+         #  gyp ERR! node -v v11.10.1
+         #  gyp ERR! node-gyp -v v3.8.0
+         #  gyp ERR! not ok
+         # 安装windows-build-tools解决： npm install --global windows-build-tools
     ```
     ![效果还不错](./imgs/minifont_after.png)
 2. 用法：
