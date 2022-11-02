@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "fontmin": "^0.9.8",
+    "fontmin": "^0.9.9",
     "html-to-text": "^5.1.1",
     "node-gyp": "^5.0.7",
     "sails": "^1.2.3"
