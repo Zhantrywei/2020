@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "fontmin": "^0.9.8",
+    "fontmin": "^0.9.9",
     "html-to-text": "^5.1.1"
   }
 }
